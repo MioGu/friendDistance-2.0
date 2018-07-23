@@ -1,0 +1,87 @@
+<view class="container">
+    <view class="listBoxContainer" data-name="headImg" bindtap="updata">
+        <view class="listBox">
+            <view class="textBox">
+                <view class="title">头像</view>
+            </view>
+            <image  class="headImg" src="{{userInfo.headimgurl}}"></image>
+            
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="nickname" bindtap="updata">
+        <view class="listBox1" >
+          昵称 
+          <view class="tips">{{userInfo.nickname || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" style="margin-top:16px;" data-name="realName" bindtap="updata">
+        <view class="listBox1">
+          姓名 
+          <view class="tips">{{userInfo.realName || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="phone" bindtap="updata">
+        <view class="listBox1">
+          电话 
+          <view class="tips">{{userInfo.phone || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="birthday" bindtap="updata">
+        <view class="listBox1">
+          生日 
+          <view class="tips">{{userInfo.birthday || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="homeAddress" bindtap="updata">
+        <view class="listBox1">
+          家乡 
+          <view class="tips">{{userInfo.homeAddress || '未填写'}}</view>
+        </view>
+    </view>
+   
+    <view class="listBoxContainer1" style="margin-top:16px;" data-name="company" bindtap="updata">
+        <view class="listBox1">
+          公司 
+          <view class="tips">{{userInfo.company || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="jobs" bindtap="updata">
+        <view class="listBox1">
+          职务 
+          <view class="tips">{{userInfo.jobs || '未填写'}}</view>
+        </view>
+    </view>
+     <view class="listBoxContainer1" data-name="companyAddress" bindtap="updata">
+        <view class="listBox1">
+          地址 
+          <view class="tips">{{userInfo.companyAddress || '未填写'}}</view>
+        </view>
+    </view>
+    <view class="listBoxContainer1" data-name="email" bindtap="updata">
+        <view class="listBox1">
+          邮箱 
+          <view class="tips">{{userInfo.email || '未填写'}}</view>
+        </view>
+    </view>
+
+    <view class="listBoxContainer1" style="margin-top:16px;" data-name="introduce" bindtap="updata">
+        <view class="listBox1">
+          简介 
+          <view class="tips" style='max-width:70%;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;'>{{userInfo.introduce || '未填写'}}</view>
+        </view>
+    </view>
+</view>
+<view class="maskBox" wx:if="{{showMask}}">
+  <view class="content">
+    <view class='txt'>{{txtTitle}}</view>
+    <input  placeholder='请输入...' class='inputBox' type="{{inputType}}" bindinput="bindKeyInput" />
+    <view class='controlBox'>
+      <view class='bt' bindtap='closeMask' >
+        取消
+      </view>
+      <view class='bt' bindtap='confirm'>
+        确认
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,52 @@
+<!--pages/home/home.wxml-->
+<view>
+	<view class="bgImg" >
+		<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-circle.png" ></image>	
+		<view class="login" >未登录</view>
+		<view class="filterBtn" >
+			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/filterIcon.png" ></image>
+			<view>全部</view>
+		</view>
+		<view class="inviteBtn" >
+			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/inviteIcon.png" ></image>
+			<view>邀请</view>
+		</view>
+	</view>
+
+	<view class="mainContainer" >
+
+		<button wx:if="{{type===1}}" class='login' open-type="getUserInfo" >登录</button>
+
+		<view class="noLocation" wx:elif="{{type===2}}" >	
+			<view>暂无位置信息</view>
+			<view>点击获取</view>
+		</view>
+
+		<view class="showLocation" wx:elif="{{type===3}}" >
+			<view>你的位置</view>
+			<view>上海市浦东新区</view>
+		</view>
+
+		<view class="tips" wx:if="{{type===2||type===3}}" >
+			<view>点击右上角 <text>邀请</text> 好友</view>
+			<view>计算好友距离</view>
+		</view>
+
+		<block wx:if="{{type===4}}" >
+			<view class="dataList" >
+				<view class="item" >
+					<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultHeadImg.png" ></image>
+					<view class="rightContent" >
+						<view>相亲相爱一家人</view>
+						<view>2018/7/6 12:05:36</view>
+					</view>
+				</view>	
+			</view>
+		</block>
+
+	</view>
+
+	<view class="adContainer" >
+		广告
+	</view>
+</view>

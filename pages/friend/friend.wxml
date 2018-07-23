@@ -1,0 +1,53 @@
+<!--pages/friend/friend.wxml-->
+<view class="outContainer" >
+	<view class="scrollContainer" >
+			
+		<view class="userInfo" >
+			<view class="top" >
+				<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+				<view class="rightContent" >
+					<view>Martin</view>
+					<view>iPhone 6s</view>
+				</view>
+			</view>
+
+			<view class="options" >设置</view>
+
+			<view class="bottom" >
+				<text>7/15</text>
+				<text>未获取位置</text>
+			</view>
+		</view>
+
+		<view class="friendInfo" >
+			<view class="top" >
+				<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+				<view class="rightContent" >
+					<view>上海刘德华</view>
+					<view>iPhone X</view>
+				</view>
+			</view>
+
+			<view class="bottom" >
+				<text>12:56</text>
+				<text>上海市浦东新区</text>
+			</view>
+		</view>
+
+		<view class="login" >
+			<view>请登录后查看好友距离</view>
+			<view class="loginBtn" >登录</view>
+		</view>
+
+
+		<view class="adContainer" >广告</view>
+
+		<view class="relieve" >解除关联</view>
+	</view>
+
+	<view class="tabbar" >
+		<view class="tab1" >首页</view>
+		<view class="tab2" >邀请群友更新位置</view>
+	</view>
+
+</view>

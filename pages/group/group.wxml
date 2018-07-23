@@ -1,0 +1,132 @@
+<!--pages/group/group.wxml-->
+<view class="outContainer" >
+	<view class="scrollContainer" >
+		
+		<view class="userInfo" >
+			<view class="top" >
+				<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+				<view class="rightContent" >
+					<view>Martin</view>
+					<view>iPhone 6s</view>
+				</view>
+			</view>
+
+			<view class="options" >设置</view>
+
+			<view class="bottom" >
+				<text>7/15</text>
+				<text>未获取位置</text>
+			</view>
+		</view>
+
+		<view class="groupInfo" >
+			<view class="groupTitle" >
+				<text>群友(12)</text>
+				<view>地图分布></view>
+			</view>
+		
+			<view class="login" wx:if="{{!isLogin}}" >
+				<view>请登录后查看群好友距离与地图分布</view>
+				<button open-type="getUserInfo" >登录</button>
+			</view>
+
+			<view wx:else class="groupList" >
+
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+				
+				<view class="item" >
+					<view class="top" >
+						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<view class="rightContent" >
+							<view>Martin</view>
+							<view>iPhone 6s</view>
+						</view>
+					</view>
+					<view class="bottom" >
+						<text>7/15</text>
+						<text>未获取位置</text>
+					</view>
+				</view>
+			</view>
+
+		</view>
+
+		<view class="adContainer" >广告</view>
+
+		<view class="relieve" >解除关联</view>
+	</view>
+
+	<view class="tabbar" >
+		<view class="tab1" >首页</view>
+		<view class="tab2" >邀请群友更新位置</view>
+	</view>
+
+</view>

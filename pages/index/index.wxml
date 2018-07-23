@@ -1,0 +1,37 @@
+<!--index.wxml-->
+
+<view class="container">
+<view wx:if="{{!isShowShare && list.length>0 &&!showAuth}}" class="listBoxContainer" wx:key="unique"  wx:for="{{list}}" wx:for-index="index" data-id="{{item.id}}" data-name="{{item.nickname}}" data-gid="{{item.openGid}}" bindtap="toQunYou">
+  <view class="listBox">
+    
+    <image wx:if="{{item.showImg}}"  class="headImg" src="{{item.showImg}}" ></image>
+    <image wx:else=""  class="headImg" src="../../imgs/defaultHeadImg.png" ></image>
+    <view class="textBox">
+    <view class="title">
+      <text wx:if="{{item.nickname !='' && item.nickname != '未命名群聊'}}">{{item.nickname}}</text>
+       <open-data wx:else=""  type="groupName" open-gid="{{item.openGid}}"></open-data> 
+     <!-- {{item.nickname}} -->
+    </view>
+    <view class="memberNumber">
+    已开通{{item.userNum}}人
+    </view>
+    </view>
+  </view>
+</view>
+
+
+ <!--<button class="share-btn" open-type="share">开通更多群</button>-->
+
+  <view wx:if="{{isShowShare}}">
+    <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
+    <view class="tips">暂无内容</view>
+    <button class="share-btn" open-type="share">转发</button>
+  </view>
+
+
+  <view wx:if="{{showAuth}}">
+    <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
+    <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>登录</button>
+  </view>
+
+</view>

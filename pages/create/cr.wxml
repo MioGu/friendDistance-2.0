@@ -1,0 +1,9 @@
+<view class="top">
+    <image src="../../imgs/bg.jpg" class="bg" style='width=100%;'></image>
+    <view class="topTitle">
+        <text style='font-size:20px;font-weight:bolder;'>请输入群名称</text>
+  </view>
+</view>
+<input  placeholder='请输入群名称' class='inputBox' type="text" bindinput="bindKeyInput" />
+<button class="share-btn" bindtap='createGroup'>确认创建</button>
+

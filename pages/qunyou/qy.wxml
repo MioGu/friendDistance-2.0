@@ -1,0 +1,215 @@
+<view wx:if="{{showAuth}}">
+    <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
+    <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>登录</button>
+</view>
+<view style='width:100%;height:100%' wx:else="">
+  <view class='mapMask' wx:if="{{isShowMap}}">
+    <map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude}}" scale="13"  markers="{{markers}}"  style="width: 100%;height: 95%">
+    </map>
+  <view class="closeMap" bindtap='closeMap'>关闭</view>
+  </view>  
+  <view class="top">
+      <image src="../../imgs/bg.jpg" class="bg"></image>
+      <view class="topTitle">
+          <text wx:if="{{groupName !='' && groupName != '未命名群聊'}}" style='font-size:20px;font-weight:bolder;'>{{groupName}}</text>
+          <open-data wx:else=""  type="groupName" open-gid="{{gid}}"></open-data> 
+          <image src='../../imgs/config.png' class='config' bindtap='showConfigBox'></image>
+      </view>
+      <view class="topNumber">{{list.length + 1 }}人</view>
+      <button class="topForfriend f1" bindtap='toHome' wx:if="{{!verSionStatus}}">首页</button>
+      <button class="topForfriend" open-type="share">邀请好友</button>
+  </view>
+  <view  class="{{!verSionStatus?'myInfoBox':'myInfoBox1'}}" style="margin-top:10px;" bindtap='showControl'>
+      <view class="headImgBox">
+          <image wx:if="userInfo.headimgurl" class="headImg" src="{{userInfo.headimgurl}}"></image>
+          <image wx:else=""  class="headImg" src="../../imgs/defaultHeadImg.png"></image>
+          <image wx:if="{{userInfo.gender == 1}}" src="../../imgs/male.png" class="sex"></image>
+          <image wx:else="" src="../../imgs/female.png" class="sex"></image>
+      </view>
+    <view class="name p1">{{userInfo.nickname}}{{userInfo.realName? '('+userInfo.realName+ ')':''}}</view>
+    <view class="address p1">{{userInfo.locationAddress}}</view>
+    <view class="phoneType p1">{{userInfo.phoneModel?userInfo.phoneModel:'未知型号'}}</view>
+    <view class="todo" wx:if="{{!verSionStatus}}">设置</view>
+  </view>
+  <view style="padding:10px 10px 10px 10px; ">好友 
+   <view style='color:#1178F1;float:right;width:180px;text-align:right;' bindtap='showMap' wx:if="{{list.length>0}}">好友地图</view> 
+  </view>
+  <view></view>
+  <view wx:if="{{list.length>0}}"  wx:key="{{item.id}}" wx:for="{{list}}" class="{{!verSionStatus?'myInfoBox':'myInfoBox1'}}"   wx:for-index="index"  bindtap='showqyInfo' data-index="{{index}}" >
+      <view class="headImgBox">
+          <image  class="headImg" src="{{item.headimgurl}}"></image>
+          <image wx:if="{{item.gender == 1}}" src="../../imgs/male.png" class="sex"></image>
+          <image wx:if="{{item.gender == 2}}" src="../../imgs/female.png" class="sex"></image>
+      </view>
+    <view class="name p1">{{item.nickname}}{{item.realName? '('+item.realName+ ')':''}}</view>
+    <view class="address p1">
+    <!-- {{ item.homeAddress ? item.homeAddress : '未知地址'}} -->
+    {{item.locationAddress}}{{item.standoffDistance?' ' + item.standoffDistance :''}}</view>
+    <view class="phoneType p1">更新于 {{item.locationTime}}</view>
+  </view>
+  <view wx:if="{{list.length == 0}}" style='text-align:center;margin-top:50px;color:#666;font-size:18px;'>
+    暂无数据
+  </view>
+
+  <button class="share-btn" open-type="share" wx:if="{{list.length == 0 && !verSionStatus}}">邀请好友</button>
+  <button class="share-btn1" open-type="share" wx:if="{{list.length == 0  && verSionStatus}}">转到微信群，看看好友都在哪里</button>
+  <view style='text-align:center;margin-top:50px;color:#999;font-size:16px;' bindtap='clearGroup'>
+    清除我的信息
+  </view>
+  <view wx-if="{{showControl}}" class='fix_box' >
+    <view class='fix-content'>
+      <view class='fix-title'>设置显示项
+        <span class="close" bindtap='closeMask'></span>
+      </view>
+
+      <view class='fix-list-box'>
+        <view>真实姓名</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1" bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>家乡</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>年龄</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>星座</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>手机型号</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>地理位置</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>工作信息</view>
+        <view class='fix-list-tips'>
+          <switch  color="#1178F1"  bindchange="switch1Change"/>
+        </view>  
+      </view>
+
+      <view class='flex-box'>
+        <view>完善信息</view>
+        <view>确定</view>
+      </view>
+    </view>
+  </view>
+
+  <view wx-if="{{showQyInfo}}"  class='fix_box'>
+    <view class='fix-content'>
+      <view class='fix-title'>好友动态
+      <view bindtap='closeMask' style='width:32px;height:32px;position: absolute;top:50%;margin-top:-16px;right:13px;'>
+        <image src='../../imgs/close.png' class="close" ></image>
+      </view>
+      
+        <!-- <span class="close" bindtap='closeMask'></span> -->
+      </view>
+      <view style='width:100%;height:380px;overflow-y: scroll;'>
+        <view class='fix-list-box'>
+        <view>姓名</view>
+        <view class='fix-list-tips1'>
+        {{qyInfo.nickname}}{{qyInfo.realName? '('+qyInfo.realName+ ')':'(未填写)'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>家乡</view>
+        <view class='fix-list-tips1'>
+
+          {{ qyInfo.homeAddress?qyInfo.homeAddress : '未知地址'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>年龄</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.age || '未填写'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>手机号码</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.phone || '未填写'}}
+        </view>   
+      </view>
+      <!-- <view class='fix-list-box'>
+        <view>星座</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.star || '未填写'}}
+        </view>  
+      </view> -->
+      <view class='fix-list-box'>
+        <view>手机型号</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.phoneModel || '未填写'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>地理位置</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.locationAddress?qyInfo.locationAddress: '未知地址'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>公司</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.company || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>职务</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.industry || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>邮箱</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.email || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>简介</view>
+        <view class='fix-list-tips1' style='word-wrap:break-word'>
+          {{qyInfo.introduce || '未填写'}} 
+        </view>  
+      </view>
+
+
+
+
+      </view>
+      
+    </view>
+  </view>
+  <view class="maskBox" wx:if="{{showConfig}}">
+    <view class="content">
+      <view class='txt'>群昵称</view>
+      <input  placeholder='请输入...' class='inputBox' type="text" bindinput="bindKeyInput" />
+      <view class='controlBox'>
+        <view class='bt' bindtap='closeshowConfig' >
+          取消
+        </view>
+        <view class='bt' bindtap='confirm'>
+          确认
+        </view>
+      </view>
+    </view>
+  </view>  
+</view>
+

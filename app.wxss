@@ -1,0 +1,21 @@
+/**app.wxss**/
+Page {
+  background: #F6F6F6;
+}
+/*swtich样式-start*/
+/*swtich整体大小*/
+.wx-switch-input{
+  width:86rpx !important;
+  height:40rpx !important;
+}
+/*白色样式（false的样式）*/
+.wx-switch-input::before{
+  width:83rpx !important;
+  height: 37rpx !important;
+}
+/*绿色样式（true的样式）*/
+.wx-switch-input::after{
+  width: 40rpx !important;
+  height: 37rpx !important;
+}
+/*swtich样式end*/
