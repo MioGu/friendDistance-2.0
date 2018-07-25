@@ -80,6 +80,17 @@
 	font-size: 32rpx;
 	color: #424CF7;
 	text-decoration: underline;
+	position: relative;
+}
+.mainContainer > .noLocation >view:nth-of-type(2) > button {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	height: 100%;
+	width: 200rpx;
+	background-color: skyblue;
+	opacity: 0;
 }
 .mainContainer > .showLocation {
 	margin-top: 245rpx;

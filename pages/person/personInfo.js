@@ -135,7 +135,7 @@ Page({
        success: function (res) {
          that.setData({
           userInfo:res.data.data
-         }) 
+         })
        }
      })  
   },
