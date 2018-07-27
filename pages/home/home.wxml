@@ -3,9 +3,9 @@
 	<view class="bgImg" >
 		<image src="{{headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-circle.png'}}" ></image>	
 		<view class="login" >{{nickname || '未登录'}}</view>
-		<view class="filterBtn" >
+		<view class="filterBtn" bindtap="openActionsheet" >
 			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/filterIcon.png" ></image>
-			<view>全部</view>
+			<view>{{type===0 ? '全部' : type===1 ? '群友' : '好友'}}</view>
 		</view>
 		<view class="inviteBtn" >
 			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/inviteIcon.png" ></image>
@@ -14,35 +14,36 @@
 	</view>
 
 	<view class="mainContainer" >
+		<block wx:if="{{dataList.length===0}}" >
+			<button wx:if="{{!headimgurl}}" class='login' open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >登录</button>
 
-		<button wx:if="{{!headimgurl}}" class='login' open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >登录</button>
-
-		<block wx:if="{{headimgurl}}" >
-			<view class="noLocation" wx:if="{{!locationAddress}}" >	
-				<view>暂无位置信息</view>
-				<view>
-					点击获取
-					<button open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+			<block wx:if="{{headimgurl}}" >
+				<view class="noLocation" wx:if="{{!locationAddress}}" >	
+					<view>暂无位置信息</view>
+					<view>
+						点击获取
+						<button open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+					</view>
 				</view>
-			</view>
 
-			<view class="showLocation" wx:else="{{locationAddress}}" >
-				<view>你的位置</view>
-				<view>{{locationAddress}}</view>
-			</view>
+				<view class="showLocation" wx:else="{{locationAddress}}" >
+					<view>你的位置</view>
+					<view>{{locationAddress}}</view>
+				</view>
 
-			<view class="tips" >
-				<view>点击右上角 <text>邀请</text> 好友</view>
-				<view>计算好友距离</view>
-			</view>
+				<view class="tips" >
+					<view>点击右上角 <text>邀请</text> 好友</view>
+					<view>计算好友距离</view>
+				</view>
+			</block>
 		</block>
 
-		<block wx:if="{{type===4}}" >
+		<block wx:else >
 			<view class="dataList" >
-				<view class="item" >
-					<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultHeadImg.png" ></image>
+				<view class="item" wx:for="{{dataList}}" wx:key="index" >
+					<image src="{{item.showImg || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultHeadImg.png'}}" ></image>
 					<view class="rightContent" >
-						<view>相亲相爱一家人</view>
+						<view>{{item.nickname}}</view>
 						<view>2018/7/6 12:05:36</view>
 					</view>
 				</view>	
@@ -54,4 +55,5 @@
 	<view class="adContainer" >
 		广告
 	</view>
+
 </view>

@@ -5,13 +5,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-		type: 0,  //0：全部；1：群；2：好友
+		type: 0,  //0：全部；1：群友；2：好友
 		pageSize: 20,
 		pageNum: 1,
 		headimgurl: '',
 		dataList: [],
 		nickname: '',
-		locationAddress: ''
+		locationAddress: '',
+		allLoaded: false,
+		dataLoading: false
   },
 
   /**
@@ -69,7 +71,13 @@ Page({
   /**
    * 页面上拉触底事件的处理函数
    */
-  onReachBottom: function () {
+	onReachBottom: function () {
+		if (!this.data.allLoaded && !this.data.dataLoading) {
+			this.setData({
+				pageNum: this.data.pageNum++
+			})
+			this.getGroupList();
+		}
   
   },
 
@@ -126,7 +134,7 @@ Page({
 			type: 'gcj02',
 			success: function(res) {
 				getApp().$http({
-					msg: '定位中...',
+					msg: '正在定位...',
 					url: 'api/qyUser/location',
 					data: {
 						locationStatus: 1,
@@ -169,23 +177,69 @@ Page({
 	},
 	/** 获取列表数据 */
 	getGroupList() {
+		this.setData({
+			dataLoading: true
+		})
 		getApp().$http({
 			url: 'api/qyGroup/my',
 			data: {
-				pageNum: this.pageNum,
-				pageSize: this.pageSize,
-				type: this.type
+				pageNum: this.data.pageNum,
+				pageSize: this.data.pageSize,
+				type: this.data.type
 			}
 		}).then(res=>{
-			console.log(res);
 			if(res.code==200) {
+				let _dataList = res.data.dataList;
+				_dataList.forEach((val, index)=>{
+					let time = new Date(val.createTime);
+					let y = time.getFullYear();
+					let m = time.getMonth() + 1;
+					let d = time.getDate();
+					let H = time.getHours();
+					let M = time.getMinutes();
+					let S = time.getSeconds();
+					val.createTime = y + '/' + m + '/' +d + ' ' + H + ':' + M + ':' + S;
+				})
+
+				// 判断当前为最后一页
+				if (res.data.dataList.length < this.data.pageSize) {
+					this.setData({
+						allLoaded: true
+					})
+				}
+
 				this.setData({
-					dataList: res.data.dataList
+					dataList: this.data.dataList.concat(_dataList),
+					dataLoading: false
 				})
 			}
 		}).catch(err=>{
 			console.log(err);
 		})
-	}
+	},
 
+	/** actionsheet组件相关 */
+	openActionsheet() {
+		let that = this;
+		wx.showActionSheet({
+			itemList: ['全部', '群友', '好友'],
+			success: function (res) {
+				if (!res.cancel) {
+					console.log(res.tapIndex);
+					that.toggleType(res.tapIndex);
+				}
+			}
+		});
+	},
+	/** 切换数据种类 */
+	toggleType(tapIndex) {
+		this.setData({
+			//TODO
+			type: tapIndex,
+			pageNum: 1,
+			dataList: []
+		})
+
+		this.getGroupList();
+	}
 })

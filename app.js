@@ -128,7 +128,7 @@ App({
 	$http(parmas, hideLoading) {
 		if (!hideLoading) {
 			wx.showLoading({
-				title: parmas.msg || '',
+				title: parmas.msg || '加载中',
 				mask: true
 			})
 			wx.showNavigationBarLoading();
