@@ -4,10 +4,10 @@
 		
 		<view class="userInfo" >
 			<view class="top" >
-				<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+				<image src="{{headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png'}}" ></image>
 				<view class="rightContent" >
-					<view>Martin</view>
-					<view>iPhone 6s</view>
+					<view>{{nickname || '暂无名称'}}</view>
+					<view>{{device || '暂未获取'}}</view>
 				</view>
 			</view>
 
@@ -22,12 +22,15 @@
 		<view class="groupInfo" >
 			<view class="groupTitle" >
 				<text>群友(12)</text>
-				<view>地图分布></view>
+				<view>
+					地图分布>
+					<button wx:if="{{locationAddress}}" open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+				</view>
 			</view>
 		
-			<view class="login" wx:if="{{!isLogin}}" >
+			<view class="login" wx:if="{{!headimgurl}}" >
 				<view>请登录后查看群好友距离与地图分布</view>
-				<button open-type="getUserInfo" >登录</button>
+				<button open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >登录</button>
 			</view>
 
 			<view wx:else class="groupList" >
@@ -125,7 +128,7 @@
 	</view>
 
 	<view class="tabbar" >
-		<view class="tab1" >首页</view>
+		<view class="tab1" bindtap="goHomePage" >首页</view>
 		<view class="tab2" >邀请群友更新位置</view>
 	</view>
 

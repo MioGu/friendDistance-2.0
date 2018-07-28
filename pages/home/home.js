@@ -20,13 +20,13 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-		let qyUser = JSON.parse(wx.getStorageSync('qyUser'));
-		let _data = {
-			headimgurl: qyUser.headimgurl,
-			nickname: qyUser.nickname
-		}
-		this.setData(_data);
-		getApp().queryStatus(()=>{
+		getApp().queryStatus(() => {
+			let qyUser = JSON.parse(wx.getStorageSync('qyUser'));
+			let _data = {
+				headimgurl: qyUser.headimgurl,
+				nickname: qyUser.nickname
+			}
+			this.setData(_data);
 			this.getGroupList();
 		})
   },
@@ -154,26 +154,28 @@ Page({
 	},
 	/** 更新用户信息 */
 	updateUserInfo(e) {
-		getApp().$http({
-			url: 'api/qyUser/updateWxInfo',
-			data: {
-				encryptedData: e.detail.encryptedData,
-				iv: e.detail.iv,
-				session_key: wx.getStorageSync('session_key')
-			}
-		}).then(res=>{
-			if(res.code==200) {
-				console.log(res)
-				wx.setStorageSync("headimgurl", res.data.headimgurl);
-				wx.setStorageSync('qyUser', JSON.stringify(res.data));
-				this.setData({
-					headimgurl: res.data.headimgurl,
-					nickname: res.data.nickname
-				})
-			}
-		}).catch(err=>{
-			console.log(err);
-		})
+		if (e.detail.encryptedData) {
+			getApp().$http({
+				url: 'api/qyUser/updateWxInfo',
+				data: {
+					encryptedData: e.detail.encryptedData,
+					iv: e.detail.iv,
+					session_key: wx.getStorageSync('session_key')
+				}
+			}).then(res=>{
+				if(res.code==200) {
+					console.log(res)
+					wx.setStorageSync("headimgurl", res.data.headimgurl);
+					wx.setStorageSync('qyUser', JSON.stringify(res.data));
+					this.setData({
+						headimgurl: res.data.headimgurl,
+						nickname: res.data.nickname
+					})
+				}
+			}).catch(err=>{
+				console.log(err);
+			})
+		}
 	},
 	/** 获取列表数据 */
 	getGroupList() {
