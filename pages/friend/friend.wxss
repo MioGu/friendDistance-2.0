@@ -65,9 +65,17 @@ page {
 	left: 0rpx;
 	width: 100%;
 }
+.userInfo .bottom >text {
+	display: inline-block;
+	text-align: center;
+	min-width: 146rpx;
+}
 .userInfo .bottom >text:nth-of-type(1) {
-	margin-left: 40rpx;
-	margin-right: 40rpx;
+	/* margin-left: 40rpx;
+	margin-right: 40rpx; */
+}
+.userInfo .bottom >text:nth-of-type(2) {
+	text-align: left;
 }
 .userInfo .options {
 	position: absolute;
@@ -87,6 +95,26 @@ page {
 	/* border: 1rpx solid rgba(0, 0, 0, 0.2); */
 	position: relative;
 	border-radius: 6rpx;
+}
+.male {
+	width: 34rpx;
+	height: 34rpx;
+	position: absolute;
+	top: 82rpx;
+	left: 88rpx;
+	background-image: url('https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/male.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.female {
+	width: 34rpx;
+	height: 34rpx;
+	position: absolute;
+	top: 82rpx;
+	left: 88rpx;
+	background-image: url('https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/female.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
 }
 .friendInfo .top {
 	height: 132rpx;
@@ -131,9 +159,19 @@ page {
 	left: 0rpx;
 	width: 100%;
 }
+
+.friendInfo .bottom >text {
+	display: inline-block;
+	text-align: center;
+	min-width: 146rpx;
+}
 .friendInfo .bottom >text:nth-of-type(1) {
-	margin-left: 40rpx;
-	margin-right: 40rpx;
+	/* margin-left: 40rpx;
+	margin-right: 40rpx; */
+}
+.friendInfo .bottom >text:nth-of-type(2) {
+	/* margin-right: 40rpx; */
+	text-align: left;
 }
 .login {
 	text-align: center;
@@ -154,15 +192,53 @@ page {
 	border-radius: 8rpx;
 	margin-top: 60rpx;
 	margin-bottom: 137rpx;
+	position: relative;
 }
-
+.login >.loginBtn >button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: skyblue;
+	opacity: 0;
+}
+.navigationContainer {
+	height: 220rpx;
+	text-align: center;
+}
+.navigationContainer .item {
+	display: inline-block;
+	width: 160rpx;
+	height: 70rpx;
+	text-align: center;
+	line-height: 70rpx;
+	font-family: "PingFangSC-Regular";
+	font-size: 32rpx;
+	color: #666;
+	border-radius: 8rpx;
+	border: 1rpx solid #666;
+	position: relative;
+}
+.navigationContainer .item >button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: skyblue;
+	opacity: 0;
+}
+.tips {
+	text-align: center;
+	color: #666;
+	font-size: 28rpx;
+	margin-top: 30rpx;
+}
 .adContainer {
 	width: 690rpx;
-	height: 230rpx;
 	margin: 0 auto;
-	background-color: #979797;
-	margin-top: 60rpx;
-	margin-bottom: 60rpx;
+	margin-top: 30rpx;
 }
 .relieve {
 	text-align: center;
@@ -170,7 +246,8 @@ page {
 	font-size: 28rpx;
 	color: #666;
 	text-decoration: underline;
-	margin-bottom: 60rpx;
+	padding-bottom: 60rpx;
+	padding-top: 30rpx;
 }
 .tabbar {
 	height: 98rpx;
@@ -186,9 +263,98 @@ page {
 	float: left;
 	width: 40%;
 	text-align: center;
+	color: #424CF7;
 }
 .tabbar >.tab2 {
 	float: left;
 	width: 60%;
 	text-align: center;
+	position: relative;
+}
+.tabbar >.tab2 >button {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: blue;
+	opacity: 0;
+}
+
+
+.fix_box{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.5);
+}
+.fix-content{
+  width: 100%;
+  height: auto;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background: #fff;
+}
+.fix-title{
+  padding: 12px 0;
+  text-align: center;
+  color: #1178F1;
+  font-size: 18px;
+  position: relative;
+  background: #F5F5F5;
+}
+.close {
+   width: 16px;
+   height: 16px;
+    top:50%;
+    margin-top: -8px;
+    left: 50%;
+    margin-left: -8px;
+    position: absolute;
+}
+.fix-list-box{
+  padding: 12px 15px;
+  position: relative;
+  color: #666;
+  font-size: 18px;
+  box-shadow: inset 0 -1px 0 0 #DDDDDD;
+}
+.fix-list-tips{
+    font-size: 12px;
+    color: #AFAFAF;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.fix-list-box view:first-child{
+ display: inline-block;
+ width: 35%;
+}
+.fix-list-tips1{
+    font-size: 18px;
+    color: #2C2D2E;
+    display: inline-block;
+    width: 65%;
+}
+.flex-box{
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+ 
+}
+.flex-box view{
+  width: 50%;
+  text-align: center;
+  padding: 12px 0;
+  color: #1178F1;
+  font-size: 18px;
+  box-shadow: 0 -2px 10px 0 rgba(87,95,105,0.58);
+}
+.flex-box view:last-child{
+   background: #1178F1;
+   color: #fff;
 }

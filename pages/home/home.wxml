@@ -1,59 +1,91 @@
 <!--pages/home/home.wxml-->
 <view>
 	<view class="bgImg" >
-		<image src="{{headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-circle.png'}}" ></image>	
-		<view class="login" >{{nickname || '未登录'}}</view>
+		<image bindtap='goPerson' src="{{headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-circle.png'}}" ></image>	
+		<view class="login" ><text bindtap='goPerson'>{{nickname || '未授权'}}</text></view>
 		<view class="filterBtn" bindtap="openActionsheet" >
-			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/filterIcon.png" ></image>
-			<view>{{type===0 ? '全部' : type===1 ? '群友' : '好友'}}</view>
+			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/all.png" ></image>
+			<view>{{type===0 ? '全部' : type===1 ? '多人' : type===2 ? '单人' : '使用说明'}}</view>
 		</view>
 		<view class="inviteBtn" >
-			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/inviteIcon.png" ></image>
+			<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/invite.png" ></image>
 			<view>邀请</view>
+			<button open-type='share' ></button>
 		</view>
 	</view>
 
-	<view class="mainContainer" >
-		<block wx:if="{{dataList.length===0}}" >
-			<button wx:if="{{!headimgurl}}" class='login' open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >登录</button>
+	<view class="scrollBox" >
+		<view class="mainContainer" >
+			<block wx:if="{{type!==3}}" >
+				<block wx:if="{{dataList.length===0}}" >
+					<button wx:if="{{!headimgurl}}" class='login' open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >授权</button>
 
-			<block wx:if="{{headimgurl}}" >
-				<view class="noLocation" wx:if="{{!locationAddress}}" >	
-					<view>暂无位置信息</view>
-					<view>
-						点击获取
-						<button open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+					<block wx:if="{{headimgurl}}" >
+						<view class="noLocation" wx:if="{{!locationAddress}}" >	
+							<view>暂无位置信息</view>
+							<view>
+								点击获取
+								<button open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+							</view>
+						</view>
+
+						<view class="showLocation" wx:else="{{locationAddress}}" >
+							<view>你的位置</view>
+							<view>{{locationAddress}}</view>
+						</view>
+
+						<view class="tips" >
+							<view>点击右上角 <text>邀请</text> 好友</view>
+							<view>计算好友距离</view>
+						</view>
+					</block>
+				</block>
+
+				<block wx:else >
+					<view class="dataList" >
+						<view class="item" data-groupid='{{item.id}}' data-type='{{item.type}}' data-opengid='{{item.openGid}}' bindtap="goDetail" wx:for="{{dataList}}" wx:key="index" >
+							<image src="{{item.showImg || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultHeadImg.png'}}" ></image>
+							<view class="rightContent" >
+								<view wx:if="{{item.type==1}}" ><open-data type="groupName" open-gid="{{item.openGid}}" /></view>
+								<view wx:else >{{item.nickname}}</view>
+								<view>{{item.updateTime}}</view>
+							</view>
+						</view>	
 					</view>
-				</view>
+				</block>
+			</block>
+			<block wx:else >
+				<view class="instructions" >
+					<view class="title" >使用说明</view>
+					<view class="content" >
+						<view class="subtitle" >1.计算好友群内距离</view>
+						<view class="detail" >
+							点击右上角「邀请」将本小程序转发至微信群内，群好友点击进入，即可显示群好友所在城市及你与TA中间的距离。还可以查看全部群好友在地图上的分布。
+						</view>
+						<view class="subtitle" >2.计算单个好友距离</view>
+						<view class="detail" >
+							点击右上角「邀请」将本小程序转发给你的好友，好友点击进入，即可显示好友所在城市及你与TA之间的距离。还可以点击导航去找TA。
+						</view>
+						<view class="subtitle" >3.个人中心</view>
+						<view class="detail" >
+							点击正上方你的头像，可进入个人中心。
+						</view>
+					</view>
 
-				<view class="showLocation" wx:else="{{locationAddress}}" >
-					<view>你的位置</view>
-					<view>{{locationAddress}}</view>
-				</view>
-
-				<view class="tips" >
-					<view>点击右上角 <text>邀请</text> 好友</view>
-					<view>计算好友距离</view>
 				</view>
 			</block>
-		</block>
 
-		<block wx:else >
-			<view class="dataList" >
-				<view class="item" wx:for="{{dataList}}" wx:key="index" >
-					<image src="{{item.showImg || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultHeadImg.png'}}" ></image>
-					<view class="rightContent" >
-						<view>{{item.nickname}}</view>
-						<view>2018/7/6 12:05:36</view>
-					</view>
-				</view>	
-			</view>
-		</block>
+		</view>
+
+		<view wx:if="{{type!==3}}" class="tips" >
+			点击左上角 可查看「使用说明」
+		</view>
+
+		<view class="adContainer" >
+			<ad unit-id="adunit-3abca9a6cc1c9344"></ad>
+		</view>
 
 	</view>
 
-	<view class="adContainer" >
-		广告
-	</view>
 
 </view>

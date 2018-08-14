@@ -6,6 +6,27 @@ Page({
     showAuth:false,
     locationStatus:2
   },
+	switchLocation() {
+		let locationStatus = this.data.userInfo.locationStatus == 1 ? 2 : 1;
+		console.log(locationStatus)
+		app.$http({
+			url: 'api/qyUser/location',
+			data: {
+				location: this.data.userInfo.location,
+				locationStatus: locationStatus
+			}
+		}).then(res=>{
+			if(res.code==200) {
+				console.log(res)
+				let _key = 'userInfo.locationStatus'
+				this.setData({
+					[_key]: locationStatus
+				})
+			}
+		}).catch(err=>{
+			console.log(err);
+		})
+	},
   toPersonInfo:function(){
     wx.navigateTo({
       url: '../person/personInfo'

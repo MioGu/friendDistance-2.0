@@ -31,7 +31,7 @@
 
   <view wx:if="{{showAuth}}">
     <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
-    <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>登录</button>
+    <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>授权</button>
   </view>
 
 </view>

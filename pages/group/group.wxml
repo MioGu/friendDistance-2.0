@@ -2,7 +2,7 @@
 <view class="outContainer" >
 	<view class="scrollContainer" >
 		
-		<view class="userInfo" >
+		<view class="userInfo" bindtap='goSetting' >
 			<view class="top" >
 				<image src="{{headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png'}}" ></image>
 				<view class="rightContent" >
@@ -14,122 +14,157 @@
 			<view class="options" >设置</view>
 
 			<view class="bottom" >
-				<text>7/15</text>
-				<text>未获取位置</text>
+				<text>{{updateTime}}</text>
+				<text>{{locationAddress || '未获取位置'}}</text>
 			</view>
+			<view wx:if="{{gender ==1 }}" class="male" ></view>
+			<view wx:if="{{gender ==2 }}" class="female" ></view>
 		</view>
 
 		<view class="groupInfo" >
 			<view class="groupTitle" >
-				<text>群友(12)</text>
-				<view>
-					地图分布>
-					<button wx:if="{{locationAddress}}" open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
+				<open-data wx-if="{{openGid}}" type="groupName" open-gid="{{openGid}}" /> <text wx-if="{{!openGid}}" >未命名群聊</text><text wx:if="{{memberList.length>0}}" >({{memberList.length}})</text>
+				<view wx-if="{{memberList.length>0}}" >
+					<text bindtap='showMap' >地图分布></text>
+					<button wx:if="{{showLocationAuth}}" open-type="openSetting"  bindopensetting="openLocationAuth" ></button>
 				</view>
 			</view>
 		
 			<view class="login" wx:if="{{!headimgurl}}" >
-				<view>请登录后查看群好友距离与地图分布</view>
-				<button open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >登录</button>
+				<view>请授权后查看群好友距离与地图分布</view>
+				<button open-type="getUserInfo" bindgetuserinfo="updateUserInfo" >授权</button>
 			</view>
 
 			<view wx:else class="groupList" >
 
-				<view class="item" >
+				<view class="item" wx:for="{{memberList}}" wx:key="index" wx:for-index="index"  bindtap='showqyInfo' data-index="{{index}}" >
 					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
+						<image src="{{item.headimgurl || 'https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png'}}" ></image>
 						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
+							<view>{{item.nickname}}<text wx-if="{{item.realName}}" >({{item.realName}})</text></view>
+							<view wx:if="{{item.phoneModel}}" >{{item.phoneModel}}</view>
 						</view>
 					</view>
 					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
+						<text>{{item.updateTime}}</text>
+						<text>{{item.locationAddress || '未获取位置'}}</text>
+						<text wx:if="{{!!item.standoffDistance}}" >{{item.standoffDistance}}</text>
 					</view>
+					<view wx:if="{{item.gender ==1 }}" class="male" ></view>
+					<view wx:if="{{item.gender ==2 }}" class="female" ></view>
 				</view>
 
-				<view class="item" >
-					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
-						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
-						</view>
-					</view>
-					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
-					</view>
-				</view>
+				<view wx:if="{{memberList.length===0}}" style='text-align: center; font-size: 32rpx; color: #999;' >暂无好友</view>
 
-				<view class="item" >
-					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
-						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
-						</view>
-					</view>
-					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
-					</view>
-				</view>
-
-				<view class="item" >
-					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
-						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
-						</view>
-					</view>
-					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
-					</view>
-				</view>
-
-				<view class="item" >
-					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
-						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
-						</view>
-					</view>
-					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
-					</view>
-				</view>
-				
-				<view class="item" >
-					<view class="top" >
-						<image src="https://lg-k2nk6t1g-1257138615.cos.ap-shanghai.myqcloud.com/defaultAvatar-square.png" ></image>
-						<view class="rightContent" >
-							<view>Martin</view>
-							<view>iPhone 6s</view>
-						</view>
-					</view>
-					<view class="bottom" >
-						<text>7/15</text>
-						<text>未获取位置</text>
-					</view>
-				</view>
 			</view>
 
 		</view>
 
-		<view class="adContainer" >广告</view>
+		<view class="tips" >
+			点击左下角「首页」查看更多
+		</view>
 
-		<view class="relieve" >解除关联</view>
+		<view class="adContainer" >
+			<ad unit-id="adunit-4492c1dbfb5539f2"></ad>
+		</view>
+
+		<view class="relieve" bindtap='exitGroup' >解除关联</view>
 	</view>
 
 	<view class="tabbar" >
 		<view class="tab1" bindtap="goHomePage" >首页</view>
-		<view class="tab2" >邀请群友更新位置</view>
+		<view class="tab2" >
+			邀请群友更新位置
+			<button open-type='share' ></button>
+		</view>
 	</view>
+
+	<view class="mapMask" wx:if="{{isShowMap}}" >
+		<map id="map" longitude="{{markers[0].longitude}}" latitude="{{markers[0].latitude}}" scale="13"  markers="{{markers}}"></map>
+		<view bindtap='closeMap' >关闭地图</view>
+	</view>
+
+
+  <view wx-if="{{showQyInfo}}"  class='fix_box'>
+    <view class='fix-content'>
+      <view class='fix-title'>好友动态
+      <view bindtap='closeMask' style='width:32px;height:32px;position: absolute;top:50%;margin-top:-16px;right:13px;'>
+        <image src='../../imgs/close.png' class="close" ></image>
+      </view>
+      
+        <!-- <span class="close" bindtap='closeMask'></span> -->
+      </view>
+      <view style='width:100%;height:380px;overflow-y: scroll;'>
+        <view class='fix-list-box'>
+        <view>姓名</view>
+        <view class='fix-list-tips1'>
+        {{qyInfo.nickname}}{{qyInfo.realName? '('+qyInfo.realName+ ')':'(未填写)'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>家乡</view>
+        <view class='fix-list-tips1'>
+
+          {{ qyInfo.homeAddress?qyInfo.homeAddress : '未知地址'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>年龄</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.age || '未填写'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>手机号码</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.phone || '未填写'}}
+        </view>   
+      </view>
+      <!-- <view class='fix-list-box'>
+        <view>星座</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.star || '未填写'}}
+        </view>  
+      </view> -->
+      <view class='fix-list-box'>
+        <view>手机型号</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.phoneModel || '未填写'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>地理位置</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.locationAddress?qyInfo.locationAddress: '未知地址'}}
+        </view>   
+      </view>
+      <view class='fix-list-box'>
+        <view>公司</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.company || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>职务</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.industry || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>邮箱</view>
+        <view class='fix-list-tips1'>
+          {{qyInfo.email || '未填写'}}
+        </view>  
+      </view>
+      <view class='fix-list-box'>
+        <view>简介</view>
+        <view class='fix-list-tips1' style='word-wrap:break-word'>
+          {{qyInfo.introduce || '未填写'}} 
+        </view>  
+      </view>
+      </view>
+      
+    </view>
+  </view>
 
 </view>

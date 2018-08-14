@@ -15,6 +15,14 @@
   position: relative; 
   align-items:center;
 }
+.location {
+  display: -webkit-flex;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  position: relative; 
+  align-items:center;
+}
 .headImg{
  width: 66px;
  height: 66px; 
@@ -61,4 +69,10 @@
   width: 170px;
   color: #fff;
   margin-top: 30px;
+}
+
+.adContainer {
+	width: 690rpx;
+	margin: 0 auto;
+	margin-top: 130rpx;
 }

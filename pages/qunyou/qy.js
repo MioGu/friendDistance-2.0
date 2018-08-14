@@ -131,11 +131,10 @@ Page({
           shareTicket: shareTickets,
           success: function (res) {
             wx.request({
-              url: 'https://m.app.shangquanpai.com/common/decrypt',
+              url: 'https://m.app.shangquanpai.com/api/common/decrypt',
               data: {
                 encryptedData: res.encryptedData,
                 iv: res.iv,
-                sessionKey: wx.getStorageSync('session_key')
               },
               method: 'POST',
               header: {

@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-		type: 0,  //0：全部；1：群友；2：好友
+		type: 0,  //0：全部；1：群友；2：好友 3:使用说明
 		pageSize: 20,
 		pageNum: 1,
 		headimgurl: '',
@@ -13,7 +13,10 @@ Page({
 		nickname: '',
 		locationAddress: '',
 		allLoaded: false,
-		dataLoading: false
+		dataLoading: false,
+		userId: '',
+		shareTitle: '',
+		shareImg: ''
   },
 
   /**
@@ -23,11 +26,19 @@ Page({
 		getApp().queryStatus(() => {
 			let qyUser = JSON.parse(wx.getStorageSync('qyUser'));
 			let _data = {
+				userId: qyUser.id,
 				headimgurl: qyUser.headimgurl,
 				nickname: qyUser.nickname
 			}
 			this.setData(_data);
-			this.getGroupList();
+			this.getLocationAuth();
+			this.getShareInfo();
+			if(qyUser.headimgurl) {
+				this.getGroupList();
+			}
+		})
+		wx.showShareMenu({
+			withShareTicket: true
 		})
   },
 
@@ -42,9 +53,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-		getApp().queryStatus(() => {
-			this.getLocationAuth();
-		})
+		// getApp().queryStatus(() => {
+		// 	this.getLocationAuth();
+		// })
   },
 
   /**
@@ -74,7 +85,7 @@ Page({
 	onReachBottom: function () {
 		if (!this.data.allLoaded && !this.data.dataLoading) {
 			this.setData({
-				pageNum: this.data.pageNum++
+				pageNum: this.data.pageNum + 1
 			})
 			this.getGroupList();
 		}
@@ -84,9 +95,31 @@ Page({
   /**
    * 用户点击右上角分享
    */
-  onShareAppMessage: function () {
-  
+	onShareAppMessage: function () {
+		let gid = Date.parse(new Date()) + parseInt(Math.random() * 20000000000);
+		return {
+			title: this.data.shareTitle,
+			path: 'pages/home/home?shareUserId=' + this.data.userId + '&gid=' + gid,
+			imageUrl: this.data.shareImg
+		}
+
   },
+
+	/** 获取分享标题和图片 */
+	getShareInfo() {
+		getApp().$http({
+			url: 'common/shareInfo'
+		}).then(res=>{
+			if(res.code==200) {
+				this.setData({
+					shareTitle: res.data.title,
+					shareImg: res.data.img
+				})
+			}
+		}).catch(err=>{
+			console.log(err);
+		})
+	},
 
 	/** 获取地理位置授权 */
 	getLocationAuth() {
@@ -137,10 +170,9 @@ Page({
 					msg: '正在定位...',
 					url: 'api/qyUser/location',
 					data: {
-						locationStatus: 1,
 						location: res.latitude + '#' + res.longitude
 					}
-				}).then(res=>{
+				}, true).then(res=>{
 					if(res.code==200) {
 						that.setData({
 							locationAddress: res.data
@@ -155,6 +187,22 @@ Page({
 	/** 更新用户信息 */
 	updateUserInfo(e) {
 		if (e.detail.encryptedData) {
+			let that = this;
+			wx.getSystemInfo({
+				success: function (ret) {
+					getApp().$http({
+						url: 'api/qyUser/update',
+						data: {
+							phoneBrand: ret.brand,
+							phoneModel: ret.model
+						}
+					}).then(res => {
+						console.log(res)
+					}).catch(err => {
+						console.log(err);
+					})
+				}
+			})
 			getApp().$http({
 				url: 'api/qyUser/updateWxInfo',
 				data: {
@@ -162,7 +210,7 @@ Page({
 					iv: e.detail.iv,
 					session_key: wx.getStorageSync('session_key')
 				}
-			}).then(res=>{
+			}, true).then(res=>{
 				if(res.code==200) {
 					console.log(res)
 					wx.setStorageSync("headimgurl", res.data.headimgurl);
@@ -171,6 +219,7 @@ Page({
 						headimgurl: res.data.headimgurl,
 						nickname: res.data.nickname
 					})
+					this.getGroupList();
 				}
 			}).catch(err=>{
 				console.log(err);
@@ -193,14 +242,7 @@ Page({
 			if(res.code==200) {
 				let _dataList = res.data.dataList;
 				_dataList.forEach((val, index)=>{
-					let time = new Date(val.createTime);
-					let y = time.getFullYear();
-					let m = time.getMonth() + 1;
-					let d = time.getDate();
-					let H = time.getHours();
-					let M = time.getMinutes();
-					let S = time.getSeconds();
-					val.createTime = y + '/' + m + '/' +d + ' ' + H + ':' + M + ':' + S;
+					val.updateTime = getApp().handleTimestamp(val.updateTime);
 				})
 
 				// 判断当前为最后一页
@@ -224,11 +266,17 @@ Page({
 	openActionsheet() {
 		let that = this;
 		wx.showActionSheet({
-			itemList: ['全部', '群友', '好友'],
+			itemList: ['全部', '多人', '单人', '使用说明'],
 			success: function (res) {
 				if (!res.cancel) {
 					console.log(res.tapIndex);
-					that.toggleType(res.tapIndex);
+					if (res.tapIndex !== 3) {
+						that.toggleType(res.tapIndex);
+					} else {
+						that.setData({
+							type: 3
+						})
+					}
 				}
 			}
 		});
@@ -236,12 +284,33 @@ Page({
 	/** 切换数据种类 */
 	toggleType(tapIndex) {
 		this.setData({
-			//TODO
 			type: tapIndex,
 			pageNum: 1,
+			dataLoading: false,
+			allLoaded: false,
 			dataList: []
 		})
 
 		this.getGroupList();
+	},
+	/** 进入详情页 */
+	goDetail(e) {
+		if (e.currentTarget.dataset.type === 1) {
+			// 群友页面
+			wx.navigateTo({
+				url: '/pages/group/group?groupId=' + e.currentTarget.dataset.groupid + '&openGid=' + e.currentTarget.dataset.opengid,
+			})
+		} else if (e.currentTarget.dataset.type === 2) {
+			// 好友页面
+			wx.navigateTo({
+				url: '/pages/friend/friend?groupId=' + e.currentTarget.dataset.groupid + '&openGid=' + e.currentTarget.dataset.opengid,
+			})
+		}
+	},
+	/** 进入我的页面 */
+	goPerson() {
+		wx.navigateTo({
+			url: '/pages/mine/my'
+		})
 	}
 })

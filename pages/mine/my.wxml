@@ -1,31 +1,35 @@
-
-  <view wx:if="{{showAuth}}">
-    <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
-    <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>登录</button>
+<view wx:if="{{showAuth}}">
+  <image src="../../imgs/homebg.png" style="width:220px;height:180px;display:block;margin:75px auto 15px auto;"></image>
+  <button class="share-btn" open-type="getUserInfo" bindgetuserinfo='goauth'>授权</button>
+</view>
+<view wx:else="" class="container">
+  <view class="listBoxContainer" bindtap="toPersonInfo">
+    <view class="listBox">
+      <image wx:if="userInfo.headimgurl" class="headImg" src="{{userInfo.headimgurl}}"></image>
+      <image wx:else="" class="headImg" src="../../imgs/defaultHeadImg.png"></image>
+      <!-- <image  class="headImg" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2876246900,3125676196&fm=173&app=25&f=JPEG?w=218&h=146&s=F100DB182437CF9A8A5D54C20300E0B0"></image> -->
+      <view class="textBox">
+        <view class="title">{{userInfo.nickname}}</view>
+      </view>
+    </view>
   </view>
-  <view wx:else="" class="container">
-    <view class="listBoxContainer" bindtap="toPersonInfo">
-        <view class="listBox">
-          <image wx:if="userInfo.headimgurl" class="headImg" src="{{userInfo.headimgurl}}"></image>
-        <image wx:else=""  class="headImg" src="../../imgs/defaultHeadImg.png"></image>
-            <!-- <image  class="headImg" src="https://ss2.baidu.com/6ONYsjip0QIZ8tyhnq/it/u=2876246900,3125676196&fm=173&app=25&f=JPEG?w=218&h=146&s=F100DB182437CF9A8A5D54C20300E0B0"></image> -->
-            <view class="textBox">
-                <view class="title">{{userInfo.nickname}}</view>
-            </view>
-        </view>
+  <view class="listBoxContainer" style="margin-top:16px;">
+    <view class="location">
+      位置显示
+      <view class="tips">
+        <switch color="#1178F1" checked='{{locationStatus == 1}}' bindtap='switchLocation' />
+      </view>
     </view>
-    <view class="listBoxContainer" style="margin-top:16px;">
-        <view class="listBox">
-          位置授权 
-          <view class="tips">
-             <switch color="#1178F1" checked='{{locationStatus == 1}}'  bindchange="changeLocationAuth"/>
-          </view>
-        </view>
+  </view>
+  <view class="listBoxContainer" style="margin-top:16px;position:relative">
+    <button style='wid' open-type="contact" style='position:absolute;width:100%;height:100%;left:0;top:0;opacity:0;z-index:10'></button>
+    <view class="listBox">
+      意见反馈
     </view>
-    <view class="listBoxContainer" style="margin-top:16px;position:relative">
-        <button style='wid' open-type="contact" style='position:absolute;width:100%;height:100%;left:0;top:0;opacity:0;z-index:10'></button>
-         <view class="listBox">
-          意见反馈
-        </view> 
-    </view>
+  </view>
+
+
+	<view class="adContainer" >
+		<ad unit-id="adunit-a27943b5e1b45658"></ad>
+	</view>
 </view>
